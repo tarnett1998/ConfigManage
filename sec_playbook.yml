@@ -5,4 +5,10 @@
 
   roles:
     - network_sec
+
+- name: run web config file checks
+  hosts: testserver
+  become: yes
+
+  roles:
     - web_config
