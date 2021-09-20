@@ -141,20 +141,20 @@
 #####
 
 - name: "check for clickjacking possibilites"
-    lineinfile:
-      path: /etc/httpd/conf/httpd.conf
-      line: '{{ item }}'
-      state: present
-    check_mode: yes
-    register: presence
-    failed_when: presence is changed 
-    with_items:
-      - 'Header append X-FRAME-OPTIONS "SAMEORIGIN"'
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'Header append X-FRAME-OPTIONS "SAMEORIGIN"'
 
 
-  - name: "printing debug message"
-    debug: msg="clickjacking possible, change this."
-    when: presence is not changed
+- name: "printing debug message"
+  debug: msg="clickjacking possible, change this."
+  when: presence is not changed
 
   
 #####
