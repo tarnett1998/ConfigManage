@@ -13,10 +13,13 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'ServerSignature Off'
     - 'ServerTokens Prod'
+- fail: 
+    msg: "Policies missing, check security policies for Apache Version Hiding"
+  when: presence is changed
 
 
 
@@ -27,28 +30,30 @@
     state: present
   check_mode: yes
   register: presence
-  #failed_when: presence is changed 
   with_items:
     - 'Options -Indexes'
     - 'AllowOverride None'
     - 'Require all granted'
-  fail: 
-    msg: "Policies missing, check security policies for Apache Dir Struct Hiding"
-  when: presence is not changed
+- fail: 
+    msg: "Policies missing, check security policies for Apache Directory Structure Hiding"
+  when: presence is changed
 
 
-- name: check for unnessary modules
+- name: check for unnecessary modules
   lineinfile:
     path: /etc/httpd/conf.module.d/00-base.conf
     line: '{{ item }}'
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - '#LoadModule info_module modules/mod_info.so'
     - '#LoadModule info_module modules/mod_info.so'
     - '#LoadModule userdir_module modules/mod_userdir.so'
+- fail: 
+    msg: "Policies missing, check security policies for uncessary modules"
+  when: presence is changed
 
 
 - name: "make sure symlinks aren't followed"
@@ -58,11 +63,14 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'Options -Indexes -FollowSymLinks'
     - 'AllowOverride None'
     - 'Require all granted'
+- fail: 
+    msg: "Policies missing, check security policies for symlink following"
+  when: presence is changed
 
 
 - name: "checking for SSI and CGI enabled"
@@ -72,11 +80,14 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'Options -Indexes -FollowSymLinks -ExecCGI -Includes'
     - 'AllowOverride None'
     - 'Require all granted'
+- fail: 
+    msg: "Policies missing, check security policies for SSI + CGI disabling"
+  when: presence is changed
 
 
 - name: "limit request sizes"
@@ -86,9 +97,12 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'LimitRequestBody 204800'
+- fail: 
+    msg: "Policies missing, check security policies for Apache request size limiting"
+  when: presence is changed
 
 
 - name: "check for browsing away from document root"
@@ -98,11 +112,14 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'Options None'
     - 'Order deny,allow'
     - 'Deny from all'
+- fail: 
+    msg: "Policies missing, check security policies for Apache non-root directory browsing"
+  when: presence is changed
 
 
 - name: "check for clickjacking possibilites"
@@ -112,9 +129,12 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'Header append X-FRAME-OPTIONS "SAMEORIGIN"'
+- fail: 
+    msg: "Policies missing, check security policies for Apache clickjacking possibilities"
+  when: presence is changed
 
 
 - name: "check for ETAG possibilites"
@@ -124,9 +144,12 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'FileETag None'
+- fail: 
+    msg: "Policies missing, check security policies for Apache ETAG possiblilities"
+  when: presence is changed
 
 
 - name: "check for HTTP pruning possibilites"
@@ -136,9 +159,12 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'deny from all'
+- fail: 
+    msg: "Policies missing, check security policies for Apache HTTP Pruning"
+  when: presence is changed
 
 
 - name: "check for XSS pruning possibilites"
@@ -148,9 +174,12 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'Header set X-XSS-Protection "1; mode=block"'
+- fail: 
+    msg: "Policies missing, check security policies for Apache XSS"
+  when: presence is changed
 
 
 - name: "check for HTTPOnly Flag"
@@ -160,6 +189,9 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure'
+- fail: 
+    msg: "Policies missing, check security policies for Apache HTTPOnly"
+  when: presence is changed
