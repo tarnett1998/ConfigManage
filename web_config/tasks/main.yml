@@ -1,0 +1,233 @@
+---
+- name: update HTTPD
+  yum:
+    name: httpd
+    state: latest
+
+#####
+
+- name: check for Apache version hiding
+  lineinfile: 
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'ServerSignature Off'
+    - 'ServerTokens Prod'
+
+- name: "printing debug message"
+  debug: msg="Apache is not hiding version number, change this."
+  when: presence is not changed
+
+#####
+
+- name: check for Apache directory structure hiding
+  lineinfile: 
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'Options -Indexes'
+    - 'AllowOverride None'
+    - 'Require all granted'
+
+- name: "printing debug message"
+  debug: msg="Apache is not hiding directory structure, change this."
+  when: presence is not changed
+
+#####
+
+- name: check for unnessary modules
+  lineinfile:
+    path: /etc/httpd/conf.module.d/00-base.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - '#LoadModule info_module modules/mod_info.so'
+    - '#LoadModule info_module modules/mod_info.so'
+    - '#LoadModule userdir_module modules/mod_userdir.so'
+
+- name: "printing debug message"
+  debug: msg="Info modules are unnessarily enabled, change this."
+  when: presence is not changed
+
+#####
+
+- name: "make sure symlinks aren't followed"
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'Options -Indexes -FollowSymLinks'
+    - 'AllowOverride None'
+    - 'Require all granted'
+
+- name: "printing debug message"
+  debug: msg="sym links are followed, change this."
+  when: presence is not changed
+
+#####
+
+- name: "checking for SSI and CGI enabled"
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'Options -Indexes -FollowSymLinks -ExecCGI -Includes'
+    - 'AllowOverride None'
+    - 'Require all granted'
+
+
+- name: "printing debug message"
+  debug: msg="CGI / SSI enabled, change this."
+  when: presence is not changed
+
+#####
+
+- name: "limit request sizes"
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'LimitRequestBody 204800'
+
+
+- name: "printing debug message"
+  debug: msg="request sizes not limited, change this."
+  when: presence is not changed
+
+#####
+
+
+- name: "check for browsing away from document root"
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'Options None'
+    - 'Order deny,allow'
+    - 'Deny from all'
+
+
+- name: "printing debug message"
+  debug: msg="browsing away from root not disabled, change this."
+  when: presence is not changed
+
+#####
+
+- name: "check for clickjacking possibilites"
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      line: '{{ item }}'
+      state: present
+    check_mode: yes
+    register: presence
+    failed_when: presence is changed 
+    with_items:
+      - 'Header append X-FRAME-OPTIONS "SAMEORIGIN"'
+
+
+  - name: "printing debug message"
+    debug: msg="clickjacking possible, change this."
+    when: presence is not changed
+
+  
+#####
+
+- name: "check for ETAG possibilites"
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'FileETag None'
+
+
+- name: "printing debug message"
+  debug: msg="ETAG possible, change this."
+  when: presence is not changed
+
+#####
+
+- name: "check for HTTP pruning possibilites"
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'deny from all'
+
+
+- name: "printing debug message"
+  debug: msg="HTTP pruning possible, change this."
+  when: presence is not changed
+
+#####
+
+- name: "check for XSS pruning possibilites"
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'Header set X-XSS-Protection "1; mode=block"'
+
+
+- name: "printing debug message"
+  debug: msg="XSS possible, change this."
+  when: presence is not changed
+
+#####
+
+- name: "check for HTTPOnly Flag"
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    line: '{{ item }}'
+    state: present
+  check_mode: yes
+  register: presence
+  failed_when: presence is changed 
+  with_items:
+    - 'Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure'
+
+
+- name: "printing debug message"
+  debug: msg="HTTPOnly enabled, change this."
+  when: presence is not changed
+
+
+#####
