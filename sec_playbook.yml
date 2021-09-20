@@ -1,0 +1,8 @@
+---
+- name: run network security checks
+  hosts: testserver
+  become: yes
+
+  tasks:
+    - network_sec
+    - web_config
