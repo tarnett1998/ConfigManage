@@ -13,10 +13,13 @@
 
   - name: permit httpd traffic 
     ansible.posix.firewalld:
-      service: httpd.service
+      port: 9001/tcp
       permanent: yes
       state: enabled
 
-
-
+  - name: permit ssh traffic
+    ansible.posix.firewalld:
+      port: 22/tcp
+      permanent: yes
+      state: enabled
 
