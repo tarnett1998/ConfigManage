@@ -3,6 +3,6 @@
   hosts: testserver
   become: yes
 
-  tasks:
+  roles:
     - network_sec
     - web_config
