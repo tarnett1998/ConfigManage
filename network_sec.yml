@@ -4,6 +4,7 @@
   become: yes
 
   tasks:
+  - name: list open ports
     command: "sudo lsof -i -P -n | grep LISTEN"
     register: ports
 
@@ -12,7 +13,7 @@
 
   - name: permit httpd traffic 
     ansible.posix.firewalld:
-      service: httpd
+      service: httpd.service
       permanent: yes
       state: enabled
 
