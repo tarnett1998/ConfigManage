@@ -1,0 +1,18 @@
+---
+- name: list open ports 
+  command: "sudo lsof -i -P -n | grep LISTEN"
+  register: ports
+
+# open ports command output
+- debug: msg="{{ ports.stdout }}" 
+
+
+- name: permit httpd traffic 
+  ansible.posix.firewalld:
+    service: httpd
+    permanent: yes
+    state: enabled
+
+
+
+
