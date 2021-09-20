@@ -1,6 +1,5 @@
 ---
 - name: Security Checks for Apache
-  hosts: testserver
 
   tasks:
   - name: update HTTPD
