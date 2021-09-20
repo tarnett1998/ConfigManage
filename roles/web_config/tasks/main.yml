@@ -27,14 +27,14 @@
     state: present
   check_mode: yes
   register: presence
-  failed_when: presence is changed 
+  #failed_when: presence is changed 
   with_items:
     - 'Options -Indexes'
     - 'AllowOverride None'
     - 'Require all granted'
-
-- debug:
-    msg: "{{ 'Policies missing, check security policies for Dir Struct' if presence.failed else 'No issues found.' }}" 
+  fail: 
+    msg: "Policies missing, check security policies for Apache Dir Struct Hiding"
+  when: presence is not changed
 
 
 - name: check for unnessary modules
