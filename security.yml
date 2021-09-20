@@ -1,5 +1,7 @@
 ---
 - name: Security Checks for Apache
+  hosts: testserver
+  become: yes
 
   tasks:
   - name: update HTTPD
@@ -10,9 +12,6 @@
 #####
 
   - name: check for Apache version hiding
-    become: yes
-    become_user: root
-
     lineinfile: 
       path: /etc/httpd/conf/httpd.conf
       line: '{{ item }}'
@@ -31,9 +30,6 @@
 #####
 
   - name: check for Apache directory structure hiding
-    become: yes
-    become_user: root
-
     lineinfile: 
       path: /etc/httpd/conf/httpd.conf
       line: '{{ item }}'
@@ -53,9 +49,6 @@
 #####
 
   - name: check for unnessary modules
-    become: yes
-    become_user: root
-
     lineinfile:
       path: /etc/httpd/conf.module.d/00-base.conf
       line: '{{ item }}'
@@ -75,9 +68,6 @@
 #####
 
   - name: "make sure symlinks aren't followed"
-    become: yes
-    become_user: root
-
     lineinfile:
       path: /etc/httpd/conf/httpd.conf
       line: '{{ item }}'
@@ -97,9 +87,6 @@
 #####
 
   - name: "checking for SSI and CGI enabled"
-    become: yes
-    become_user: root
-
     lineinfile:
       path: /etc/httpd/conf/httpd.conf
       line: '{{ item }}'
@@ -120,9 +107,6 @@
 #####
 
   - name: "limit request sizes"
-    become: yes
-    become_user: root
-
     lineinfile:
       path: /etc/httpd/conf/httpd.conf
       line: '{{ item }}'
@@ -142,9 +126,6 @@
 
 
   - name: "check for browsing away from document root"
-    become: yes
-    become_user: root
-
     lineinfile:
       path: /etc/httpd/conf/httpd.conf
       line: '{{ item }}'
@@ -165,9 +146,6 @@
 #####
 
   - name: "check for clickjacking possibilites"
-      become: yes
-      become_user: root
-
       lineinfile:
         path: /etc/httpd/conf/httpd.conf
         line: '{{ item }}'
@@ -187,9 +165,6 @@
 #####
 
   - name: "check for ETAG possibilites"
-    become: yes
-    become_user: root
-
     lineinfile:
       path: /etc/httpd/conf/httpd.conf
       line: '{{ item }}'
@@ -208,9 +183,6 @@
 #####
 
   - name: "check for HTTP pruning possibilites"
-    become: yes
-    become_user: root
-
     lineinfile:
       path: /etc/httpd/conf/httpd.conf
       line: '{{ item }}'
@@ -229,9 +201,6 @@
 #####
 
   - name: "check for XSS pruning possibilites"
-    become: yes
-    become_user: root
-
     lineinfile:
       path: /etc/httpd/conf/httpd.conf
       line: '{{ item }}'
@@ -249,11 +218,7 @@
 
 #####
 
-
   - name: "check for HTTPOnly Flag"
-    become: yes
-    become_user: root
-
     lineinfile:
       path: /etc/httpd/conf/httpd.conf
       line: '{{ item }}'
@@ -271,6 +236,3 @@
 
 
 #####
-
-
-  

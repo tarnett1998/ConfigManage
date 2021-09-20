@@ -1,5 +1,7 @@
 ---
 - name: list open ports + enable firewall
+  hosts: testserver
+  become: yes
 
   tasks:
     command: "sudo lsof -i -P -n | grep LISTEN"
@@ -7,7 +9,6 @@
 
   # open ports command output
   - debug: msg="{{ ports.stdout }}" 
-
 
   - name: permit httpd traffic 
     ansible.posix.firewalld:
