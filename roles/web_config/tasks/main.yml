@@ -18,10 +18,6 @@
     - 'ServerSignature Off'
     - 'ServerTokens Prod'
 
-- name: "printing debug message"
-  debug: msg="Apache is not hiding version number, change this."
-  when: presence is not changed
-
 #####
 
 - name: check for Apache directory structure hiding
@@ -36,10 +32,6 @@
     - 'Options -Indexes'
     - 'AllowOverride None'
     - 'Require all granted'
-
-- name: "printing debug message"
-  debug: msg="Apache is not hiding directory structure, change this."
-  when: presence is not changed
 
 #####
 
@@ -56,9 +48,6 @@
     - '#LoadModule info_module modules/mod_info.so'
     - '#LoadModule userdir_module modules/mod_userdir.so'
 
-- name: "printing debug message"
-  debug: msg="Info modules are unnessarily enabled, change this."
-  when: presence is not changed
 
 #####
 
@@ -75,9 +64,6 @@
     - 'AllowOverride None'
     - 'Require all granted'
 
-- name: "printing debug message"
-  debug: msg="sym links are followed, change this."
-  when: presence is not changed
 
 #####
 
@@ -95,10 +81,6 @@
     - 'Require all granted'
 
 
-- name: "printing debug message"
-  debug: msg="CGI / SSI enabled, change this."
-  when: presence is not changed
-
 #####
 
 - name: "limit request sizes"
@@ -112,10 +94,6 @@
   with_items:
     - 'LimitRequestBody 204800'
 
-
-- name: "printing debug message"
-  debug: msg="request sizes not limited, change this."
-  when: presence is not changed
 
 #####
 
@@ -134,10 +112,6 @@
     - 'Deny from all'
 
 
-- name: "printing debug message"
-  debug: msg="browsing away from root not disabled, change this."
-  when: presence is not changed
-
 #####
 
 - name: "check for clickjacking possibilites"
@@ -151,10 +125,6 @@
   with_items:
     - 'Header append X-FRAME-OPTIONS "SAMEORIGIN"'
 
-
-- name: "printing debug message"
-  debug: msg="clickjacking possible, change this."
-  when: presence is not changed
 
   
 #####
@@ -171,10 +141,6 @@
     - 'FileETag None'
 
 
-- name: "printing debug message"
-  debug: msg="ETAG possible, change this."
-  when: presence is not changed
-
 #####
 
 - name: "check for HTTP pruning possibilites"
@@ -188,10 +154,6 @@
   with_items:
     - 'deny from all'
 
-
-- name: "printing debug message"
-  debug: msg="HTTP pruning possible, change this."
-  when: presence is not changed
 
 #####
 
@@ -207,10 +169,6 @@
     - 'Header set X-XSS-Protection "1; mode=block"'
 
 
-- name: "printing debug message"
-  debug: msg="XSS possible, change this."
-  when: presence is not changed
-
 #####
 
 - name: "check for HTTPOnly Flag"
@@ -223,11 +181,6 @@
   failed_when: presence is changed 
   with_items:
     - 'Header edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure'
-
-
-- name: "printing debug message"
-  debug: msg="HTTPOnly enabled, change this."
-  when: presence is not changed
 
 
 #####
