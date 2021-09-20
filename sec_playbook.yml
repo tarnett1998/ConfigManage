@@ -1,4 +1,5 @@
 ---
+# SECURITY CHECK SCRIPT - last updated 09/20/2021
 - name: run network security checks
   hosts: testserver
   become: yes

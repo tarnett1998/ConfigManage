@@ -1,12 +1,14 @@
 ---
+# for descriptions of each task, see the '- name' section
 - name: list firewall rules
   command: "firewall-cmd --list-all"
   register: rules
 
+# firewall rules command output
 - debug: msg="{{ rules.stdout }}"
 
 
-- name: list open ports
+- name: list all open ports
   command: "netstat -tulpn"
   register: ports
 
