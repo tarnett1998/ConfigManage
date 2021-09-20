@@ -19,6 +19,7 @@
     - 'ServerTokens Prod'
 
 
+
 - name: check for Apache directory structure hiding
   lineinfile: 
     path: /etc/httpd/conf/httpd.conf
@@ -31,6 +32,9 @@
     - 'Options -Indexes'
     - 'AllowOverride None'
     - 'Require all granted'
+
+- debug:
+    msg: "{{ 'Policies missing, check security policies for Dir Struct' if presence.failed else 'No issues found.' }}" 
 
 
 - name: check for unnessary modules
