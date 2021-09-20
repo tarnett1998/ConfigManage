@@ -1,4 +1,11 @@
 ---
+- name: list firewall rules
+  command: "firewall-cmd --list-all"
+  register: rules
+
+- debug: msg="{{ rules.stdout }}"
+
+
 - name: list open ports
   command: "netstat -tulpn"
   register: ports
