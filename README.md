@@ -1,6 +1,6 @@
-# Apache Security Checks Playbook
+## Apache Security Checks Playbook
 
-## Usage
+### Usage
 
 - Edit the `inventory.ini` file to have the correct IP addresses
 - Edit the `hosts` entry in `sec_playbook.yml` to what destination to target
