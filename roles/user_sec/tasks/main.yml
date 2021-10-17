@@ -1,6 +1,6 @@
 ---
 - name: list all users on box
-  command: "getent passwd | grep /bin/bash"
+  shell: "getent passwd | grep /bin/bash"
   register: users
 
 - debug: msg="{{ users.stdout }}" 
