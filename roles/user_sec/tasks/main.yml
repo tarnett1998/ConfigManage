@@ -1,0 +1,9 @@
+---
+- name: list all users on box
+  command: getend passwd | grep /bin/bash
+  register: users
+
+- debug: msg="{{ ports.stdout }}" 
+
+
+- name: 

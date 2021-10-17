@@ -1,0 +1,28 @@
+---
+- name: remove X11 Forwarding 
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    state: absent
+    regexp: "^X11Forwarding yes"
+
+
+- name: Add ssh lines to config file for security
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    state: present
+    regexp: '^{{ item }}'
+  loop:
+    - "X11Forwarding no"
+    - "PermitEmptyPasswords no"
+    - "MaxAuthTries 5"
+    - "UsePAM yes"
+    - "PermitEmptyPasswords no"
+
+
+
+- name: secure permissioning on sshd config file
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: '0600'

@@ -1,16 +1,26 @@
 ---
-# SECURITY CHECK SCRIPT - last updated 09/20/2021
-- name: run web config file checks
-  hosts: testserver
+# SECURITY CHECK SCRIPT - last updated 10/17/2021
+# Authors: Enzo DeStephano, Tyler Arnett
+- name: run general security checks
+  hosts: all
   become: yes
 
   roles:
-    - web_config
+    - user_sec
+    - ssh_sec
 
 
 - name: run network security checks
-  hosts: testserver
+  hosts: webservers
   become: yes
 
   roles:
     - network_sec
+
+
+- name: run web config file checks
+  hosts: webservers
+  become: yes
+
+  roles:
+    - web_config
