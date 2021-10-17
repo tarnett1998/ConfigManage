@@ -3,7 +3,10 @@
   lineinfile:
     path: /etc/ssh/sshd_config
     state: absent
-    regexp: "^X11Forwarding yes"
+    regexp: "^{{ item }}"
+  loop:
+    - "X11Forwarding yes"
+    - "PermitRootLogin yes"
 
 
 - name: Add ssh lines to config file for security
