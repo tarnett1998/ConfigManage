@@ -4,6 +4,7 @@
     path: /etc/ssh/sshd_config
     state: absent
     regexp: "^{{ item }}"
+    line: "{{ item }}"
   loop:
     - "X11Forwarding yes"
     - "PermitRootLogin yes"
@@ -14,6 +15,7 @@
     path: /etc/ssh/sshd_config
     state: present
     regexp: '^{{ item }}'
+    line: "{{ item }}"
   loop:
     - "X11Forwarding no"
     - "PermitEmptyPasswords no"
