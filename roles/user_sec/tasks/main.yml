@@ -11,6 +11,7 @@
     path: /etc/pam.d/password-auth
     state: present
     regexp: '^{{ item }}'
+    insertafter: EOF
   loop: 
     - "auth required pam_env.so"
     - "auth required pam_faillock.so preauth audit silent deny=5 unlock_time=604800"
@@ -25,6 +26,7 @@
     path: /etc/pam.d/system-auth
     state: present
     regexp: '^{{ item }}'
+    insertafter: EOF
   loop: 
     - "auth required pam_env.so"
     - "auth required pam_faillock.so preauth audit silent deny=5 unlock_time=604800"
