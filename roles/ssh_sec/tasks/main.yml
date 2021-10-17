@@ -17,7 +17,7 @@
     - "MaxAuthTries 5"
     - "UsePAM yes"
     - "PermitEmptyPasswords no"
-
+    - "PermitRootLogin no"
 
 
 - name: secure permissioning on sshd config file
